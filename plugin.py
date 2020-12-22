@@ -1,16 +1,18 @@
+from org.bukkit import Location
+
+from tower import createTowerAt
 class KuerbisPlugin(PythonPlugin):
     def onEnable(self):
-        pass
+        self.getLogger().info("Instantiates KUERBIS plugin")
 
     def onCommand(self, sender, command, label, args):
         welt = sender.getWorld()
         position = sender.getLocation()
-        position.setX(position.getX() + 2)
-        ursprungY = position.getY()
         
-        for i in range(0,10):
-            position.setY(ursprungY + i)
-            block = welt.getBlockAt(position)
-            block.setType(bukkit.Material.PUMPKIN)
+        for tuple in createTowerAt(position):
+            self.getLogger().info("********************" + str(tuple))
+            l = Location (welt, tuple[0], tuple[1], tuple[2])
+            block = welt.getBlockAt(l)
+            block.setType(bukkit.Material.COBBLESTONE)
 
         return True
