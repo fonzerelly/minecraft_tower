@@ -31,12 +31,37 @@ def createLayerAtWithDoor(position, height):
 def createLayerAt(position, height):
     return createLayerAtWithDoor(position, height) + [(position.getX() - 0, position.getY() + height, position.getZ() + 2),]
 
+def createStep(position, height):
+    steps = [
+        [
+            (position.getX() +  0, position.getY() + height, position.getZ() + 3), 
+            (position.getX() +  0, position.getY() + height, position.getZ() + 4), 
+            (position.getX() +  0, position.getY() + height, position.getZ() + 5)
+        ],
+        [
+            (position.getX() +  0, position.getY() + height, position.getZ() + 5),
+            (position.getX() + -1, position.getY() + height, position.getZ() + 5),
+            (position.getX() + -2, position.getY() + height, position.getZ() + 5)
+        ],
+        [
+            (position.getX() + -2, position.getY() + height, position.getZ() + 5),
+            (position.getX() + -2, position.getY() + height, position.getZ() + 4), 
+            (position.getX() + -2, position.getY() + height, position.getZ() + 3) 
+        ],
+        [
+            (position.getX() + -2, position.getY() + height, position.getZ() + 3),
+            (position.getX() + -1, position.getY() + height, position.getZ() + 3),
+            (position.getX() +  0, position.getY() + height, position.getZ() + 3)
+        ],
+    ]
+    return steps[height%len(steps)]
 
 def createTowerAt(position, height):
     result = []
     for i in range(height):
-        if (i < 2):
+        if (i < 3):
             result += createLayerAtWithDoor(position, i)
         else:
             result += createLayerAt(position, i)
+        result += createStep(position, i)
     return result

@@ -1,6 +1,6 @@
 import unittest
 
-from tower import createTowerAt, createLayerAt
+from tower import createTowerAt, createLayerAt, createStep
 
 from Position import Position
 
@@ -15,14 +15,16 @@ class TestCreateTowerAt(unittest.TestCase):
     def test_should_create_tower_at_double_height (self):    
         p = Position()
         singleLayer = createLayerAt(p,0)
+        steps = createStep(p,0)
         result = createTowerAt(p,2)
-        self.assertEqual(len(result), 2*len(singleLayer)-2)
+        self.assertEqual(len(result), 2*len(singleLayer + steps)-2)
 
     def test_should_leave_a_door_open(self):
         p = Position()
-        result = createTowerAt(p,3)
+        result = createTowerAt(p,4)
         self.assertTrue(excludes((0, 0, 2))(result))
         self.assertTrue(excludes((0, 1, 2))(result))
+        self.assertTrue(excludes((0, 2, 2))(result))
         
 class TestCreateLayer(unittest.TestCase):
     def setUp(self):
@@ -91,6 +93,46 @@ class TestCreateLayer(unittest.TestCase):
     def test_should_have_wall_at_front_with_door_at_level_one(self):
         self.assertTrue(findExactlyIn((-2, 1, 2))(self.resultOne))
         self.assertTrue(findExactlyIn((-1, 1, 2))(self.resultOne))
+
+class TestCreateStep(unittest.TestCase):
+    def setUp(self):
+        pass
+
+    def test_should_be_on_right_side(self):
+        p = Position()
+        step = createStep(p, 0)
+        step.index((0, 0, 3))
+        step.index((0, 0, 4))
+        step.index((0, 0, 5))
+
+    def test_should_be_on_back_side(self):
+        p = Position()
+        step = createStep(p, 1)
+        step.index((0, 1, 5))
+        step.index((-1, 1, 5))
+        step.index((-2, 1, 5))
+
+    def test_should_be_on_left_side(self):
+        p = Position()
+        step = createStep(p, 2)
+        step.index((-2, 2, 5))
+        step.index((-2, 2, 4))
+        step.index((-2, 2, 3))
+
+    
+    def test_should_be_on_front_side(self):
+        p = Position()
+        step = createStep(p, 3)
+        step.index((-2, 3, 3))
+        step.index((-1, 3, 3))
+        step.index(( 0, 3, 3))
+
+    def test_should_be_on_right_side_again(self):
+        p = Position()
+        step = createStep(p, 4)
+        step.index((0, 4, 3))
+        step.index((0, 4, 4))
+        step.index((0, 4, 5))
 
 if __name__ == '__main__':
     unittest.main() 
