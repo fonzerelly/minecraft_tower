@@ -9,7 +9,7 @@ class KuerbisPlugin(PythonPlugin):
         welt = sender.getWorld()
         position = sender.getLocation()
         
-        for tuple in createTowerAt(position):
+        for tuple in createTowerAt(position,10):
             self.getLogger().info("********************" + str(tuple))
             l = Location (welt, tuple[0], tuple[1], tuple[2])
             block = welt.getBlockAt(l)
