@@ -1,14 +1,14 @@
 from org.bukkit import Location
 
 from tower import createTowerAt
-class KuerbisPlugin(PythonPlugin):
+class TowerPlugin(PythonPlugin):
     def onEnable(self):
-        self.getLogger().info("Instantiates KUERBIS plugin")
+        self.getLogger().info("Instantiates TOWER plugin")
 
     def onCommand(self, sender, command, label, args):
         welt = sender.getWorld()
         position = sender.getLocation()
-        self.getLogger().info("************** creating a tower of height: " + args[0])
+        self.getLogger().info("creating a tower of height: " + args[0])
         height = 0
         try:
             height = int(args[0])

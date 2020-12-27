@@ -1,7 +1,7 @@
-name: Kuerbis-Plugin
-main: KuerbisPlugin
+name: Tower-Plugin
+main: TowerPlugin
 version: 1.0
 commands:
-    kuerbis:
-        description: Platziert einen Kuerbis vor dem Spieler
-        usage: /kuerbis
+    tower:
+        description: Platziert einen Turm vor dem Spieler
+        usage: /tower <hoehe> <material>
