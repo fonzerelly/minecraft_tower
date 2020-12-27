@@ -9,7 +9,7 @@ Danach installiert ihr das Plugin wie folgt:
 
 ``` sh
 cd <minecraft-server-verzeichnis>/plugins
-git clone ... tower.py.dir
+git clone git@github.com:fonzerelly/minecraft_tower.git tower.py.dir
 ```
 
 ## Anwendung:
