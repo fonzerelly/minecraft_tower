@@ -11,26 +11,33 @@ findExactlyIn = lambda tpl: lambda lst: len(curriedFilter(exact(tpl))(lst)) == 1
 excludes = lambda tpl: lambda lst: len(curriedFilter(exact(tpl))(lst)) == 0
 
 class TestCreateTowerAt(unittest.TestCase):
-
-    def test_should_create_tower_at_double_height (self):    
+    def test_should_create_tower_at_tripple_height (self):
         p = Position()
         singleLayer = createLayerAt(p,0)
         steps = createStep(p,0)
-        result = createTowerAt(p,2)
-        self.assertEqual(len(result), 2*len(singleLayer + steps)-2)
+        height = 3
+        result = createTowerAt(p, height)
+        skippedForDoor = 2
+        firstWindow = 1
+        self.assertEqual(len(result), height*len(singleLayer + steps) - skippedForDoor - firstWindow)
 
     def test_should_leave_a_door_open(self):
         p = Position()
-        result = createTowerAt(p,4)
+        result = createTowerAt(p, 4)
         self.assertTrue(excludes((0, 0, 2))(result))
         self.assertTrue(excludes((0, 1, 2))(result))
         self.assertTrue(excludes((0, 2, 2))(result))
-        
+
+    def test_should_leave_a_window_open(self):
+        p = Position()
+        result = createTowerAt(p, 3)
+        self.assertTrue(excludes((1, 2, 4)))
+
 class TestCreateLayer(unittest.TestCase):
     def setUp(self):
-        p = Position()
-        self.resultZero = createLayerAt(p, 0)
-        self.resultOne = createLayerAt(p, 1)
+        self.p = Position()
+        self.resultZero = createLayerAt(self.p, 0)
+        self.resultOne = createLayerAt(self.p, 1)
 
     def test_should_position_center_of_tower(self):
         self.assertTrue(findExactlyIn((-1, 0, 4))(self.resultZero))
@@ -46,6 +53,22 @@ class TestCreateLayer(unittest.TestCase):
         self.assertTrue(findExactlyIn((1, 0, 4))(self.resultZero))
         self.assertTrue(findExactlyIn((1, 0, 5))(self.resultZero))
         self.assertTrue(findExactlyIn((1, 0, 6))(self.resultZero))
+
+    def test_when_at_height_3_should_keep_window_open_in_wall_to_the_right(self):
+        result = createLayerAt(self.p, 2)
+        self.assertTrue(excludes((1,2,4))(result))
+
+    def test_when_at_height_4_should_keep_window_open_in_wall_to_the_back(self):
+        result = createLayerAt(self.p, 3)
+        self.assertTrue(excludes((-1,3,6))(result))
+
+    def test_when_at_height_5_should_keep_window_open_in_wall_to_the_left(self):
+        result = createLayerAt(self.p, 4)
+        self.assertTrue(excludes((-3,4,4))(result))
+
+    def test_when_at_height_6_should_keep_window_open_in_wall_to_the_front(self):
+        result = createLayerAt(self.p, 5)
+        self.assertTrue(excludes((-1,5,2))(result))
 
     def test_should_have_wall_to_the_left(self):
         self.assertTrue(findExactlyIn((-3, 0, 2))(self.resultZero))

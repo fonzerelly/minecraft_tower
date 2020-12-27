@@ -28,8 +28,20 @@ def createLayerAtWithDoor(position, height):
     ]
     return wallAtBack + wallToTheLeft + centerOfTower + wallToTheRight + wallAtFront
 
+
+
 def createLayerAt(position, height):
-    return createLayerAtWithDoor(position, height) + [(position.getX() - 0, position.getY() + height, position.getZ() + 2),]
+    fillDoor = [(position.getX() - 0, position.getY() + height, position.getZ() + 2)]
+    layer = createLayerAtWithDoor(position, height) + fillDoor
+    windowPositions = [
+        (position.getX() - 3, position.getY() + height, position.getZ() + 4),
+        (position.getX() - 1, position.getY() + height, position.getZ() + 2),
+        (position.getX() + 1, position.getY() + height, position.getZ() + 4),
+        (position.getX() - 1, position.getY() + height, position.getZ() + 6)
+    ]
+    if height >= 2:
+        layer.remove(windowPositions[height % len(windowPositions)])
+    return layer
 
 def createStep(position, height):
     steps = [
