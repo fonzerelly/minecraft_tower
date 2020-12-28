@@ -5,7 +5,15 @@
       <img src="images/screenshot_01.png">
     </td>
     <td>
-      <img src="images/screenshot_01.png">
+      <img src="images/screenshot_02.png">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img src="images/screenshot_03.png">
+    </td>
+    <td>
+      <img src="images/screenshot_04.png">
     </td>
   </tr>
  </table>
